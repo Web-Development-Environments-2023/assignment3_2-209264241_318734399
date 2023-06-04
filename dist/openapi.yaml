@@ -42,18 +42,6 @@ paths:
                 $ref: "#/components/schemas/Recipe"
       x-openapi-router-controller: recipes
 
-  # /recipes/search:
-  #   get:
-  #     description: Returns a full details of a search query that filtered
-  #     responses:
-  #       '200':
-  #         description: Successful response
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/Recipe'
-  #     x-openapi-router-controller: recipes
-
   /recipes/info:
     get:
       description: Returns the full details of a recipe by its id
