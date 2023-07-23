@@ -53,13 +53,13 @@ async function addMyRecipe(
   instruction,
   servings
 ) {
-  const result = await DButils.execQuery('SELECT MAX(recipe_id) AS max_counter FROM my_recipes');
+  const result = await DButils.execQuery('SELECT MAX(id) AS max_counter FROM my_recipes');
   const counter = result[0].max_counter || 0; // Default to 0 if no rows are returned
   
   const newCounter = counter + 1;
 
   await DButils.execQuery(
-    `INSERT INTO my_recipes (user_id, recipe_id, title, readyInMinutes, image, popularity, vegan, vegetarian, glutenFree, extendedIngredients, instructions, servings) VALUES ('${user_id}', '${newCounter}', '${title}', '${readyInMinutes}', '${image}', '${popularity}', '${vegan}', '${vegetarian}', '${glutenFree}', '${extendedIngredients}', '${instruction}', '${servings}')`
+    `INSERT INTO my_recipes (user_id, id, title, readyInMinutes, image, popularity, vegan, vegetarian, glutenFree, extendedIngredients, instructions, servings) VALUES ('${user_id}', '${newCounter}', '${title}', '${readyInMinutes}', '${image}', '${popularity}', '${vegan}', '${vegetarian}', '${glutenFree}', '${extendedIngredients}', '${instruction}', '${servings}')`
   );
 }
 
@@ -70,9 +70,9 @@ async function getMyRecipes(user_id) {
   return recipes;
 }
 
-async function getMyRecipeDetails(recipe_id) {
+async function getMyRecipeDetails(id) {
   const recipes = await DButils.execQuery(
-    `select * from my_recipes where recipe_id='${recipe_id}'`
+    `select * from my_recipes where id='${id}'`
   );
   return recipes;
 }

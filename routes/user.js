@@ -22,6 +22,16 @@ router.use(async function (req, res, next) {
   }
 });
 
+router.post("/setUsername", (req, res) => {
+  try {
+    const { username } = req.body;
+    req.session.username = username;
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
 /**
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */

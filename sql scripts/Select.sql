@@ -33,13 +33,13 @@ CREATE TABLE
 CREATE TABLE
     favoriteRecipes (
         user_id VARCHAR(255),
-        recipe_Id VARCHAR(255)
+        recipe_id VARCHAR(255)
     );
 
 CREATE TABLE
     history (
         num INT(255),
-        userid VARCHAR(255),
+        user_id VARCHAR(255),
         recipe_id VARCHAR(255)
     );
 

@@ -91,9 +91,9 @@ async function getRecipeDetails(recipe_id) {
   };
 }
 
-async function getFamilyRecipeDetails(recipe_id) {
+async function getFamilyRecipeDetails(id) {
   const recipes = await DButils.execQuery(
-    `select * from family_recipes where recipe_id='${recipe_id}'`
+    `select * from family_recipes where id='${id}'`
   );
   return recipes;
 }

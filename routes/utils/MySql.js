@@ -7,7 +7,7 @@ const config = {
   spooncular_apiKey:'e45ade9df77d4855bbeb0c1d0a4ea8f6',
   host: process.env.host, //"localhost"
   user: "root",
-  password:"Tlyrmd10-",
+  password:"pass_root@123",
   database: "mydb",
 };
 
