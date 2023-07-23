@@ -2,7 +2,7 @@ openapi: 3.0.3
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://127.0.0.1:3000
+    url: http://127.0.0.1:3000
 info:
   description: This is a simple API
   version: "1.0.0"
@@ -18,7 +18,169 @@ tags:
   - name: developers
     description: Operations available to regular developers
 paths:
-  /addRecipe:
+  /recipes/random:
+    get:
+      description: Returns 3 random recipes
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+      x-openapi-router-controller: recipes
+
+  /recipes/family:
+    get:
+      description: Returns family recipes
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+      x-openapi-router-controller: recipes
+
+  /recipes/info:
+    get:
+      description: Returns the full details of a recipe by its id
+      parameters:
+        - in: query
+          name: recipeId
+          description: ID of the recipe
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+      x-openapi-router-controller: recipes
+
+  /recipes/family/info:
+    get:
+      description: Returns the full details of a family recipe by its id
+      parameters:
+        - in: query
+          name: recipeId
+          description: ID of the recipe
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+      x-openapi-router-controller: recipes
+
+  /users/favorites:
+    post:
+      summary: Add a recipe to favorites
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipeId:
+                  type: string
+      responses:
+        "200":
+          description: Recipe successfully saved as favorite
+        "401":
+          description: Unauthorized
+    get:
+      summary: Get favorite recipes
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Recipe"
+        "401":
+          description: Unauthorized
+
+  /users/history:
+    post:
+      summary: Add a recipe to history
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipeId:
+                  type: string
+      responses:
+        "200":
+          description: Recipe added successfully to history
+        "401":
+          description: Unauthorized
+    get:
+      summary: Get recently viewed recipes from history
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Recipe"
+        "401":
+          description: Unauthorized
+
+  /users/inFavorites:
+    get:
+      summary: Check if a recipe is in favorites
+      parameters:
+        - in: query
+          name: recipeId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+        "401":
+          description: Unauthorized
+
+  /users/inHistory:
+    get:
+      summary: Check if a recipe is in history
+      parameters:
+        - in: query
+          name: recipeId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+        "401":
+          description: Unauthorized
+
+  /users/addRecipe:
     post:
       tags:
         - Recipe
@@ -37,6 +199,39 @@ paths:
           description: A new recipe has been added
         "400":
           description: wrong input parameters
+
+    get:
+      tags:
+        - Recipe
+        - User
+      summary: Get all recipes added by the user
+      description: Retrieves all recipes added by the user
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+  /users/recipes/info:
+    get:
+      description: Get details of a user's added recipe by its id
+      parameters:
+        - name: recipeId
+          in: query
+          description: ID of the recipe
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+      x-openapi-router-controller: recipes
+
   /Register:
     post:
       tags:
@@ -55,35 +250,39 @@ paths:
           description: A new user has been added
         "400":
           description: wrong input parameters
+
   /Login:
-    get:
+    post:
       tags:
         - Auth
-      summary: existing user is loging in as a client
-      parameters:
-        - in: query
-          name: userName
-          description: pass an potential userName string for looking up
-          schema:
-            $ref: "#/components/schemas/User/properties/username"
-        - in: query
-          name: passWord
-          description: pass an potential password string for looking up
-          schema:
-            $ref: "#/components/schemas/User/properties/password"
+      summary: User Login
+      description: Logs in a user with the provided username and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+              properties:
+                Username:
+                  type: string
+                Password:
+                  type: string
+        description: User credentials for login
       responses:
         "200":
-          description: userName exsist and the pssword is matching
+          description: User login successful
         "400":
-          description: username or password is invalid
-  /search/searchRecipe{title}:
+          description: Invalid username or password
+
+  /recipes/search:
     get:
       tags:
         - Recipe
       summary: searches recipes
       parameters:
-        - in: path
-          name: title
+        - in: query
+          name: query
           required: true
           description: pass the title of the recipe for looking up
           schema:
@@ -134,6 +333,42 @@ components:
           InfoPreview:
             $ref: "#/components/schemas/InfoPreview"
       description: array of favorit recipes
+    Recipe:
+      type: object
+      properties:
+        recipeId:
+          type: string
+        title:
+          type: string
+        readyInMinutes:
+          type: integer
+        image:
+          type: string
+        popularity:
+          type: number
+        vegan:
+          type: boolean
+        vegetarian:
+          type: boolean
+        glutenFree:
+          type: boolean
+        extendedIngredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ingredient"
+        instruction:
+          type: string
+        servings:
+          type: integer
+    Ingredient:
+      type: object
+      properties:
+        name:
+          type: string
+        amount:
+          type: string
+        unit:
+          type: string
     myRecipes:
       type: array
       items:
@@ -233,7 +468,7 @@ components:
           maxLength: 8
           pattern: "[a-zA-Z]+"
           description: username contains between 3 to 8 letters only
-          example: joMama
+          example: NADAVCH
         firstname:
           type: string
           description: user's first name
