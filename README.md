@@ -6,8 +6,9 @@ Nadav Cherry - 209264241
 
 שינויים בקוד לאחר תאריך ההגשה:
 
-// apiKey: process.env.spooncular_apiKey, זה מה שהיה שהעלנו לפני תאריך ההגשה
-  apiKey: 'e45ade9df77d4855bbeb0c1d0a4ea8f6', זה מה שעשינו אחרי
+// apiKey: process.env.spooncular_apiKey, 
+apiKey: 'e45ade9df77d4855bbeb0c1d0a4ea8f6', 
+
 עשינו את השינוי הזה גם בפונקציות searchForRecipesAPI, getRecipeInformation,getRandomRecipes. בדיוק אותו שינוי משום מה הייתה לנו בעיה עם process.env.spooncular_apiKey הוא לא מצא את המשתנה.
 
 בנוסף שינינו את ה localhost לip של הremote: 
