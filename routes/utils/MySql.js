@@ -4,12 +4,22 @@ require("dotenv").config();
 const config = {
   connectionLimit: 4,
   bcrypt_saltRounds:13,
-  spooncular_apiKey:'e45ade9df77d4855bbeb0c1d0a4ea8f6',
+  spooncular_apiKey: 'e45ade9df77d4855bbeb0c1d0a4ea8f6',
   host: process.env.host, //"localhost"
   user: "root",
   password:"pass_root@123",
   database: "mydb",
 };
+
+// const config = {
+//   connectionLimit: 4,
+//   bcrypt_saltRounds: 13,
+//   spooncular_apiKey: process.env.spooncular_apiKey, // Use process.env to fetch the API key
+//   host: process.env.host, // "localhost"
+//   user: "root",
+//   password: "pass_root@123",
+//   database: "mydb",
+// };
 
 const pool = mysql.createPool(config);
 const connection = () => {

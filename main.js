@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 //remote:
 app.use(
   express.static(
-    path.join(__dirname, "../../assignment3_3-209264241_318734399/assignment3_3-209264241_318734399/dist") // ../assignment3_3-209264241_318734399 /////////../assignment3_2-209264241_318734399/dist
+    path.join(__dirname, "../../assignment3_3-209264241_318734399/dist") // ../assignment3_3-209264241_318734399 /////////../assignment3_2-209264241_318734399/dist
   )
 );
 app.get("/", function (req, res) {
